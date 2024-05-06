@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Environment name="spring.config.location" value="file:/usr/local/tomcat/conf/Catalina/localhost/application.properties/application-youtube-rawdata.properties" type="java.lang.String"/>
+</Context>

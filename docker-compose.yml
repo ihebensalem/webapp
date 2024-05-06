@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  tomcat:
+    image: bensalem0iheb/youtube-idntt:v2
+    ports:
+      - "8081:8080"
+    networks:
+      - my-network
+    volumes:
+      - tomcat_data:/usr/local/tomcat/webapps
+
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: iheb
+    networks:
+      - my-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+networks:
+  my-network:
+
+volumes:
+  tomcat_data:
+  mysql_data:
