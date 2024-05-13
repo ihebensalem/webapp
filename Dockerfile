@@ -14,7 +14,7 @@ COPY /home/iheb/Desktop/multi-env/youtube-rawdata-be.war /usr/local/tomcat/webap
 RUN cp -r $CATALINA_HOME/webapps.dist/* $CATALINA_HOME/webapps
 
 # Expose port 8080
-EXPOSE 8080
+EXPOSE 8081
 
 # Start Tomcat
 CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
