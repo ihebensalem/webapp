@@ -1,28 +1,88 @@
-version: '3.8'
-services:
-  tomcat:
-    image: bensalem0iheb/youtube-idntt:v2
-    ports:
-      - "8081:8080"
-    networks:
-      - my-network
-    volumes:
-      - tomcat_data:/usr/local/tomcat/webapps
+version: '3'
 
-  mysql:
-    image: mysql:8
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: iheb
-    networks:
-      - my-network
-    volumes:
-      - mysql_data:/var/lib/mysql
+
 
 networks:
-  my-network:
+
+  app_network:
+
+    driver: bridge
+
+    ipam:
+
+      driver: default
+
+      config:
+
+        - subnet: "192.168.96.0/20"
+
+
+
+services:
+
+  mysql:
+
+    image: bensalem0iheb/mysql:v3
+
+    container_name: mysql
+
+    restart: unless-stopped
+
+    ports:
+
+      - 3306:3306
+
+    environment:
+
+      MYSQL_ROOT_PASSWORD: "iheb"
+
+      MYSQL_DATABASE: youtuberawdata
+
+    volumes:
+
+      - db:/var/lib/mysql
+
+    networks:
+
+      app_network:
+
+        ipv4_address: "192.168.96.2"
+
+
+
+  tomcat:
+
+    image: bensalem0iheb/youtube-idntt:v11
+
+    restart: unless-stopped
+
+    ports:
+
+      - 8080:8080
+
+    depends_on:
+
+      - mysql
+
+    environment:
+
+      - spring.datasource.url=jdbc:mysql://mysql:3306/youtuberawdata
+
+      - spring.datasource.username=iheb
+
+      - spring.datasource.password=iheb
+
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
+    networks:
+
+      app_network:
+
+        ipv4_address: "192.168.96.3"
+
+
 
 volumes:
-  tomcat_data:
-  mysql_data:
+
+  db:
+
